@@ -20,6 +20,21 @@ export const appConfiguration = (configService: ConfigService) => ({
       'Content-Type',
     ],
   },
+  session: {
+    /* might exsist some difference if maxAge (session) & ttl (redis) since we are not using the redisStore for
+        the store options here (due to configuring CacheModule to use redis)
+      */
+    secret: configService.get('app.session.secret'),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      // best practice is to set to true during production
+      secure:
+        configService.get('app.environment') === 'development' ? false : true,
+      httpOnly: false,
+      maxAge: 1000 * 60 * 10, // millisecond * second * minute (ToDo: put configuration to .env file)
+    },
+  },
 });
 
 export const initializeSwagger = (
@@ -33,27 +48,27 @@ export const initializeSwagger = (
     .setTitle('Catalog API')
     .setDescription('Display cinema, location, time, and movies availability')
     .setVersion('1.0.0')
-    // .addTag('accounts')
-    // .addTag('admin')
-    // .addBearerAuth(
-    //   {
-    //     type: 'http',
-    //     description: 'Auth for bearer token',
-    //     scheme: 'bearer',
-    //     bearerFormat: 'token',
-    //     in: 'header',
-    //   },
-    //   'backendToken',
-    // )
-    // .addBearerAuth(
-    //   {
-    //     type: 'apiKey',
-    //     description: 'Auth for redis session',
-    //     in: 'cookie',
-    //     name: 'connect.sid',
-    //   },
-    //   'redisSessionCookie',
-    // )
+    .addTag('movies')
+    .addTag('catalog')
+    .addBearerAuth(
+      {
+        type: 'http',
+        description: 'Auth for bearer token',
+        scheme: 'bearer',
+        bearerFormat: 'token',
+        in: 'header',
+      },
+      'backendToken',
+    )
+    .addBearerAuth(
+      {
+        type: 'apiKey',
+        description: 'Auth for redis session',
+        in: 'cookie',
+        name: 'connect.sid',
+      },
+      'redisSessionCookie',
+    )
     .setBasePath(appBaseUrl)
     .build();
 
