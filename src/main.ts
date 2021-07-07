@@ -12,6 +12,7 @@ import { setCorrelationId } from './shared/utils';
 import { Logger } from '@nestjs/common';
 import { CustomLogger } from './logger/custom-logger.logger';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import { RedisConnectService } from './module/redis/service/redis-connect.service';
 
 const logger = new Logger('Main');
 
@@ -21,6 +22,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   const configService = app.get(ConfigService);
+  const session = app.get(RedisConnectService).getRedisSession();
   const appConfig = appConfiguration(configService);
 
   app.use(helmet());
@@ -31,10 +33,14 @@ async function bootstrap() {
   app.use(express.json());
   app.set('trust proxy', 1);
   app.use(httpContext.middleware);
+  app.use(await session);
   app.use(setCorrelationId);
 
   initializeSwagger(app, configService);
-  await app.listen(configService.get('app.port'));
+
+  const port = configService.get('app.port');
+  await app.listen(port);
+  logger.log(`Server listening on port ${port}...`);
 }
 bootstrap();
 

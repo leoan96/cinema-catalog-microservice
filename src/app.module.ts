@@ -5,7 +5,9 @@ import { appEnvironmentConfiguration } from './app.env.configuration';
 import { LoggerModule } from './logger/logger.module';
 import { mongooseEnvironmentConfiguration } from './module/mongoose/mongoose.configuration';
 import { MongooseClient } from './module/mongoose/mongoose.provider';
+import { MovieModule } from './module/movie/movie.module';
 import { redisEnvironmentConfiguration } from './module/redis/redis.configuration';
+import { RedisModule } from './module/redis/redis.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { redisEnvironmentConfiguration } from './module/redis/redis.configuratio
     }),
     MongooseModule.forRootAsync(MongooseClient),
     LoggerModule,
+    MovieModule,
+    RedisModule,
   ],
 })
 export class AppModule {}
