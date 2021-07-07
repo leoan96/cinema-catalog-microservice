@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RedisClient } from 'redis';
 import { promisify } from 'util';
-import { REDIS_CLIENT } from './redis.provider';
+import { REDIS_CLIENT } from '../redis.provider';
 
 @Injectable()
 export class RedisPromiseService {

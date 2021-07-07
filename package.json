@@ -31,6 +31,7 @@
     "@types/mongodb": "^3.6.20",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "connect-redis": "^6.0.0",
     "express-http-context": "^1.2.4",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
