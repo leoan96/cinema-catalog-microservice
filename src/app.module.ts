@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { appEnvironmentConfiguration } from './app.env.configuration';
 import { LoggerModule } from './logger/logger.module';
+import { CinemaModule } from './module/cinema/cinema.module';
 import { mongooseEnvironmentConfiguration } from './module/mongoose/mongoose.configuration';
 import { MongooseClient } from './module/mongoose/mongoose.provider';
 import { MovieModule } from './module/movie/movie.module';
@@ -24,6 +25,7 @@ import { RedisModule } from './module/redis/redis.module';
     LoggerModule,
     MovieModule,
     RedisModule,
+    CinemaModule,
   ],
 })
 export class AppModule {}
