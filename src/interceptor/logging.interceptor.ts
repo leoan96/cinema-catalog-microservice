@@ -46,8 +46,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const originalUrl = request.originalUrl;
     const referer = request.headers.referer || '';
     const userAgent = request.headers['user-agent'];
-    // TODO: do not replace password if password is not present in body
-    const filterRequestBody = { ...body, password: '******' }; // hide password
+    const { password, ...filterRequestBody } = body; // hide password
 
     const requestJson = {
       timestamp: startTimestamp,
